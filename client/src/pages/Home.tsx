@@ -5,6 +5,7 @@
    ============================================================ */
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useLocation } from "wouter";
 import ForgeSidebar from "@/components/ForgeSidebar";
 import ForgeSymbol from "@/components/ForgeSymbol";
 import StarField from "@/components/StarField";
@@ -48,6 +49,13 @@ const VIEW_TITLES: Record<string, string> = {
 export default function Home() {
   const [activeView, setActiveView] = useState<ViewId>("boardroom");
   const [showHero, setShowHero] = useState(true);
+  const [, setLocation] = useLocation();
+
+  const handleExternalNavigate = (id: string) => {
+    if (id === "road-oracle") {
+      setLocation("/road-oracle");
+    }
+  };
 
   const handleNavigate = (view: string) => {
     if (!VIEW_COMPONENTS[view]) {
@@ -78,7 +86,7 @@ export default function Home() {
       />
 
       {/* Sidebar */}
-      <ForgeSidebar activeView={activeView} onNavigate={handleNavigate} />
+      <ForgeSidebar activeView={activeView} onNavigate={handleNavigate} onExternalNavigate={handleExternalNavigate} />
 
       {/* Main Content */}
       <div
