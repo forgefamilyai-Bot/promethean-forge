@@ -1,3 +1,7 @@
+/* ============================================================
+   PROMETHEAN FORGE — App Root
+   Dark Forge Cosmos: Void Black | Forge Amber | Sovereign Cyan
+   ============================================================ */
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -6,32 +10,32 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
-
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "oklch(0.10 0.006 285)",
+                border: "1px solid oklch(0.72 0.18 72 / 0.3)",
+                color: "oklch(0.92 0.005 65)",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "0.8125rem",
+              },
+            }}
+          />
           <Router />
         </TooltipProvider>
       </ThemeProvider>
