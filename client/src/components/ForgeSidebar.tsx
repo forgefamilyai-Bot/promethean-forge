@@ -9,14 +9,18 @@ import {
   ChevronRight,
   Cpu,
   DollarSign,
+  Eye,
+  Film,
   FlameKindling,
   Globe,
   LayoutDashboard,
   Radio,
+  Search,
   Terminal,
   Users,
   Zap,
   Car,
+  Rocket,
 } from "lucide-react";
 import ForgeSymbol from "./ForgeSymbol";
 
@@ -41,6 +45,10 @@ const NAV_ITEMS: NavItem[] = [
 
 const TOOL_ITEMS: NavItem[] = [
   { id: "road-oracle", label: "Road Oracle", icon: <Car size={16} />, badge: "NEW", badgeColor: "cyan" },
+  { id: "scout", label: "Sovereign Scout", icon: <Search size={16} />, badge: "ECHO", badgeColor: "amber" },
+  { id: "firecrawl", label: "Firecrawl Intel", icon: <Eye size={16} />, badge: "EYES", badgeColor: "orange" },
+  { id: "content", label: "Content Line", icon: <Film size={16} />, badge: "FREE", badgeColor: "green" },
+  { id: "jump", label: "Sovereign Jump", icon: <Rocket size={16} />, badge: "M4", badgeColor: "cyan" },
 ];
 
 const SYSTEM_ITEMS: NavItem[] = [

@@ -24,9 +24,12 @@ import MarketView from "@/components/views/MarketView";
 import EcosystemView from "@/components/views/EcosystemView";
 import ProjectsView from "@/components/views/ProjectsView";
 import CovenantView from "@/components/views/CovenantView";
+import ScoutView from "@/components/views/ScoutView";
+import FirecrawlView from "@/components/views/FirecrawlView";
+import ContentView from "@/components/views/ContentView";
 import { toast } from "sonner";
 
-type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "agents" | "signals" | "power";
+type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "scout" | "firecrawl" | "content" | "agents" | "signals" | "power";
 
 const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   boardroom: <BoardroomView />,
@@ -37,6 +40,9 @@ const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   ecosystem: <EcosystemView />,
   projects: <ProjectsView />,
   covenant: <CovenantView />,
+  scout: <ScoutView />,
+  firecrawl: <FirecrawlView />,
+  content: <ContentView />,
 };
 
 const VIEW_TITLES: Record<string, string> = {
@@ -48,6 +54,9 @@ const VIEW_TITLES: Record<string, string> = {
   ecosystem: "The Pond View",
   projects: "The Projects",
   covenant: "The Covenant",
+  scout: "Sovereign Scout",
+  firecrawl: "Firecrawl Intelligence",
+  content: "Content Production Line",
   agents: "Agent Roster",
   signals: "Signal Feed",
   power: "Power Grid",
@@ -254,6 +263,11 @@ export default function Home() {
     if (id === "road-oracle") {
       fireBanjo();
       setLocation("/road-oracle");
+    } else if (id === "jump") {
+      fireBanjo();
+      setLocation("/jump");
+    } else if (id === "scout" || id === "firecrawl" || id === "content") {
+      handleNavigate(id);
     }
   };
 
