@@ -16,12 +16,15 @@ import {
   LayoutDashboard,
   Radio,
   Search,
+  Shield,
+  Server,
   Star,
   Terminal,
   Users,
   Zap,
   Car,
   Rocket,
+  RefreshCw,
 } from "lucide-react";
 import ForgeSymbol from "./ForgeSymbol";
 
@@ -57,6 +60,12 @@ const SYSTEM_ITEMS: NavItem[] = [
   { id: "signals", label: "Signals", icon: <Radio size={16} />, badge: "LIVE", badgeColor: "green" },
   { id: "power", label: "Power Grid", icon: <Zap size={16} /> },
   { id: "pip", label: "Little Arrow Pip", icon: <Star size={16} />, badge: "NEW", badgeColor: "amber" },
+];
+
+const SOVEREIGN_ITEMS: NavItem[] = [
+  { id: "torus", label: "TORUS", icon: <RefreshCw size={16} />, badge: "AI BOARD", badgeColor: "amber" },
+  { id: "sovereignty", label: "Sovereignty Audit", icon: <Shield size={16} />, badge: "AUDIT", badgeColor: "orange" },
+  { id: "stack", label: "Sovereign Stack", icon: <Server size={16} />, badge: "OFFLINE", badgeColor: "cyan" },
 ];
 
 interface ForgeSidebarProps {
@@ -159,6 +168,40 @@ export default function ForgeSidebar({ activeView, onNavigate, onExternalNavigat
                 className={`forge-badge ${
                   item.badgeColor === "green" ? "forge-badge-green" :
                   item.badgeColor === "cyan" ? "forge-badge-cyan" :
+                  "forge-badge-amber"
+                }`}
+                style={{ fontSize: "0.55rem" }}
+              >
+                {item.badge}
+              </span>
+            )}
+          </button>
+        ))}
+
+        <div className="forge-divider mx-2" />
+
+        <div
+          className="text-xs px-2 mb-2 uppercase tracking-widest"
+          style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.38 0.006 285)" }}
+        >
+          Sovereignty
+        </div>
+        {SOVEREIGN_ITEMS.map((item) => (
+          <button
+            key={item.id}
+            className={`nav-item w-full text-left ${activeView === item.id ? "active" : ""}`}
+            onClick={() => onNavigate(item.id)}
+          >
+            <span className="nav-icon flex-shrink-0" style={{ color: activeView === item.id ? "oklch(0.72 0.18 72)" : "oklch(0.45 0.008 285)" }}>
+              {item.icon}
+            </span>
+            <span className="flex-1">{item.label}</span>
+            {item.badge && (
+              <span
+                className={`forge-badge ${
+                  item.badgeColor === "green" ? "forge-badge-green" :
+                  item.badgeColor === "cyan" ? "forge-badge-cyan" :
+                  item.badgeColor === "orange" ? "forge-badge-orange" :
                   "forge-badge-amber"
                 }`}
                 style={{ fontSize: "0.55rem" }}

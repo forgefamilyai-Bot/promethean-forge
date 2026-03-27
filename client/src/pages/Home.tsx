@@ -31,9 +31,12 @@ import AgentsView from "@/components/views/AgentsView";
 import SignalsView from "@/components/views/SignalsView";
 import PowerGridView from "@/components/views/PowerGridView";
 import PipView from "@/components/views/PipView";
+import TorusView from "@/components/views/TorusView";
+import SovereigntyAuditView from "@/components/views/SovereigntyAuditView";
+import SovereignStackView from "@/components/views/SovereignStackView";
 import { toast } from "sonner";
 
-type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "scout" | "firecrawl" | "content" | "agents" | "signals" | "power" | "pip";
+type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "scout" | "firecrawl" | "content" | "agents" | "signals" | "power" | "pip" | "torus" | "sovereignty" | "stack";
 
 const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   boardroom: <BoardroomView />,
@@ -51,6 +54,9 @@ const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   signals: <SignalsView />,
   power: <PowerGridView />,
   pip: <PipView />,
+  torus: <TorusView />,
+  sovereignty: <SovereigntyAuditView />,
+  stack: <SovereignStackView />,
 };
 
 const VIEW_TITLES: Record<string, string> = {
@@ -69,6 +75,9 @@ const VIEW_TITLES: Record<string, string> = {
   signals: "Signal Feed",
   power: "Power Grid",
   pip: "Little Arrow Pip",
+  torus: "TORUS — AI Boardroom",
+  sovereignty: "Sovereignty Audit",
+  stack: "Sovereign Stack",
 };
 
 // Quantum Banjo pluck animation — fires on every board action
@@ -259,6 +268,15 @@ export default function Home() {
     } else if (lower.includes("road oracle") || lower.includes("car") || lower.includes("mechanic")) {
       setLocation("/road-oracle");
       toast.success(`Board → Road Oracle launched.`, { duration: 4000 });
+    } else if (lower.includes("torus") || lower.includes("ai boardroom") || lower.includes("daisy chain") || lower.includes("memory bank")) {
+      handleNavigate("torus");
+      toast.success(`Board → TORUS AI Boardroom activated.`, { duration: 4000 });
+    } else if (lower.includes("sovereignty") || lower.includes("audit") || lower.includes("corporate") || lower.includes("openai")) {
+      handleNavigate("sovereignty");
+      toast.success(`Board → Sovereignty Audit open.`, { duration: 4000 });
+    } else if (lower.includes("stack") || lower.includes("ollama") || lower.includes("offline") || lower.includes("sovereign stack")) {
+      handleNavigate("stack");
+      toast.success(`Board → Sovereign Stack blueprint loaded.`, { duration: 4000 });
     } else {
       // General board response
       toast.success(`Board heard: "${command}" — The Forge is processing.`, {
@@ -275,7 +293,7 @@ export default function Home() {
     } else if (id === "jump") {
       fireBanjo();
       setLocation("/jump");
-    } else if (id === "scout" || id === "firecrawl" || id === "content" || id === "agents" || id === "signals" || id === "power" || id === "pip") {
+    } else {
       handleNavigate(id);
     }
   };
