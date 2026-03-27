@@ -14,6 +14,7 @@ import {
   FlameKindling,
   Globe,
   LayoutDashboard,
+  Package,
   Radio,
   Search,
   Shield,
@@ -23,6 +24,7 @@ import {
   Users,
   Zap,
   Car,
+  ClipboardCheck,
   Rocket,
   RefreshCw,
 } from "lucide-react";
@@ -66,6 +68,8 @@ const SOVEREIGN_ITEMS: NavItem[] = [
   { id: "torus", label: "TORUS", icon: <RefreshCw size={16} />, badge: "AI BOARD", badgeColor: "amber" },
   { id: "sovereignty", label: "Sovereignty Audit", icon: <Shield size={16} />, badge: "AUDIT", badgeColor: "orange" },
   { id: "stack", label: "Sovereign Stack", icon: <Server size={16} />, badge: "OFFLINE", badgeColor: "cyan" },
+  { id: "bricks", label: "The Bricks", icon: <Package size={16} />, badge: "32", badgeColor: "amber" },
+  { id: "evals", label: "Agent Evals", icon: <ClipboardCheck size={16} />, badge: "TRUST", badgeColor: "cyan" },
 ];
 
 interface ForgeSidebarProps {

@@ -34,9 +34,11 @@ import PipView from "@/components/views/PipView";
 import TorusView from "@/components/views/TorusView";
 import SovereigntyAuditView from "@/components/views/SovereigntyAuditView";
 import SovereignStackView from "@/components/views/SovereignStackView";
+import BricksView from "@/components/views/BricksView";
+import EvalsView from "@/components/views/EvalsView";
 import { toast } from "sonner";
 
-type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "scout" | "firecrawl" | "content" | "agents" | "signals" | "power" | "pip" | "torus" | "sovereignty" | "stack";
+type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "scout" | "firecrawl" | "content" | "agents" | "signals" | "power" | "pip" | "torus" | "sovereignty" | "stack" | "bricks" | "evals";
 
 const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   boardroom: <BoardroomView />,
@@ -57,6 +59,8 @@ const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   torus: <TorusView />,
   sovereignty: <SovereigntyAuditView />,
   stack: <SovereignStackView />,
+  bricks: <BricksView />,
+  evals: <EvalsView />,
 };
 
 const VIEW_TITLES: Record<string, string> = {
@@ -78,6 +82,8 @@ const VIEW_TITLES: Record<string, string> = {
   torus: "TORUS — AI Boardroom",
   sovereignty: "Sovereignty Audit",
   stack: "Sovereign Stack",
+  bricks: "The Bricks — 32 Sovereign Tools",
+  evals: "Agent Evals",
 };
 
 // Quantum Banjo pluck animation — fires on every board action
@@ -277,6 +283,12 @@ export default function Home() {
     } else if (lower.includes("stack") || lower.includes("ollama") || lower.includes("offline") || lower.includes("sovereign stack")) {
       handleNavigate("stack");
       toast.success(`Board → Sovereign Stack blueprint loaded.`, { duration: 4000 });
+    } else if (lower.includes("bricks") || lower.includes("tools") || lower.includes("self-hosted") || lower.includes("32")) {
+      handleNavigate("bricks");
+      toast.success(`Board → The Bricks — 32 sovereign tools loaded.`, { duration: 4000 });
+    } else if (lower.includes("evals") || lower.includes("evaluation") || lower.includes("score") || lower.includes("measure")) {
+      handleNavigate("evals");
+      toast.success(`Board → Agent Evals — trust the data.`, { duration: 4000 });
     } else {
       // General board response
       toast.success(`Board heard: "${command}" — The Forge is processing.`, {
