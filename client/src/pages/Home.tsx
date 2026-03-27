@@ -27,9 +27,13 @@ import CovenantView from "@/components/views/CovenantView";
 import ScoutView from "@/components/views/ScoutView";
 import FirecrawlView from "@/components/views/FirecrawlView";
 import ContentView from "@/components/views/ContentView";
+import AgentsView from "@/components/views/AgentsView";
+import SignalsView from "@/components/views/SignalsView";
+import PowerGridView from "@/components/views/PowerGridView";
+import PipView from "@/components/views/PipView";
 import { toast } from "sonner";
 
-type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "scout" | "firecrawl" | "content" | "agents" | "signals" | "power";
+type ViewId = "boardroom" | "council" | "command" | "ledger" | "market" | "ecosystem" | "projects" | "covenant" | "scout" | "firecrawl" | "content" | "agents" | "signals" | "power" | "pip";
 
 const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   boardroom: <BoardroomView />,
@@ -43,6 +47,10 @@ const VIEW_COMPONENTS: Record<string, React.ReactNode> = {
   scout: <ScoutView />,
   firecrawl: <FirecrawlView />,
   content: <ContentView />,
+  agents: <AgentsView />,
+  signals: <SignalsView />,
+  power: <PowerGridView />,
+  pip: <PipView />,
 };
 
 const VIEW_TITLES: Record<string, string> = {
@@ -60,6 +68,7 @@ const VIEW_TITLES: Record<string, string> = {
   agents: "Agent Roster",
   signals: "Signal Feed",
   power: "Power Grid",
+  pip: "Little Arrow Pip",
 };
 
 // Quantum Banjo pluck animation — fires on every board action
@@ -266,7 +275,7 @@ export default function Home() {
     } else if (id === "jump") {
       fireBanjo();
       setLocation("/jump");
-    } else if (id === "scout" || id === "firecrawl" || id === "content") {
+    } else if (id === "scout" || id === "firecrawl" || id === "content" || id === "agents" || id === "signals" || id === "power" || id === "pip") {
       handleNavigate(id);
     }
   };
@@ -274,8 +283,8 @@ export default function Home() {
   const handleNavigate = (view: string) => {
     if (!VIEW_COMPONENTS[view]) {
       fireBanjo();
-      toast("Feature coming soon — The Forge is still being built.", {
-        description: `${VIEW_TITLES[view]} will be live in the next iteration.`,
+      toast("Activating...", {
+        description: `${VIEW_TITLES[view] || view} — routing now.`,
       });
       return;
     }

@@ -16,6 +16,7 @@ import {
   LayoutDashboard,
   Radio,
   Search,
+  Star,
   Terminal,
   Users,
   Zap,
@@ -52,9 +53,10 @@ const TOOL_ITEMS: NavItem[] = [
 ];
 
 const SYSTEM_ITEMS: NavItem[] = [
-  { id: "agents", label: "Agents", icon: <Cpu size={16} />, badge: "3 LIVE", badgeColor: "green" },
-  { id: "signals", label: "Signals", icon: <Radio size={16} /> },
+  { id: "agents", label: "Agents", icon: <Cpu size={16} />, badge: "5 LIVE", badgeColor: "green" },
+  { id: "signals", label: "Signals", icon: <Radio size={16} />, badge: "LIVE", badgeColor: "green" },
   { id: "power", label: "Power Grid", icon: <Zap size={16} /> },
+  { id: "pip", label: "Little Arrow Pip", icon: <Star size={16} />, badge: "NEW", badgeColor: "amber" },
 ];
 
 interface ForgeSidebarProps {

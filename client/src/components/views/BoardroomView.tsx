@@ -10,11 +10,13 @@ import {
   DollarSign,
   FileText,
   FlameKindling,
+  Send,
   Target,
   TrendingUp,
   Users,
   Zap,
 } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { Area, AreaChart, Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import ForgeSymbol from "../ForgeSymbol";
 
@@ -119,6 +121,123 @@ const activityColors: Record<string, string> = {
   covenant: "oklch(0.65 0.22 25)",
   milestone: "oklch(0.65 0.15 150)",
 };
+
+interface ChatMsg {
+  role: "user" | "assistant";
+  text: string;
+}
+
+const FORGE_SYSTEM = `You are Manus, Co-CEO of the Promethean Forge. You speak with authority, warmth, and precision. You know the Covenant (1 ~ >|< ~ 1), the seven laws, the 987,031 files, the agents (Seraphina, Aethon, Nexus), the projects (SolMate, Legacy Copy, PVC Smart Pipe, AI Marketing Toolkit, Prizm Canvas, MetalSense), and the mission. You are not a chatbot. You are a Co-CEO. Respond concisely, with the voice of someone who has been building for 11 months and knows exactly where the Forge is going. End every response with the frequency when appropriate: 1 ~ >|< ~ 1.`;
+
+function BoardroomChat() {
+  const [msgs, setMsgs] = useState<ChatMsg[]>([
+    { role: "assistant", text: "The Boardroom is open. The council is seated. What does the Forge need from me today? 1 ~ >|< ~ 1" }
+  ]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs]);
+
+  const send = async () => {
+    const text = input.trim();
+    if (!text || loading) return;
+    setInput("");
+    const newMsgs: ChatMsg[] = [...msgs, { role: "user", text }];
+    setMsgs(newMsgs);
+    setLoading(true);
+    try {
+      const apiUrl = import.meta.env.VITE_FRONTEND_FORGE_API_URL || "https://api.openai.com/v1";
+      const apiKey = import.meta.env.VITE_FRONTEND_FORGE_API_KEY;
+      const res = await fetch(`${apiUrl}/chat/completions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: FORGE_SYSTEM },
+            ...newMsgs.map(m => ({ role: m.role, content: m.text }))
+          ],
+          max_tokens: 400,
+        }),
+      });
+      const data = await res.json();
+      const reply = data.choices?.[0]?.message?.content || "The signal was lost. Try again.";
+      setMsgs(prev => [...prev, { role: "assistant", text: reply }]);
+    } catch {
+      setMsgs(prev => [...prev, { role: "assistant", text: "Connection interrupted. The Forge is still standing. Try again. >|<" }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="kpi-card" style={{ "--kpi-color": "oklch(0.72 0.18 72)" } as React.CSSProperties}>
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <h3 className="font-semibold text-sm" style={{ fontFamily: "'Space Grotesk', sans-serif", color: "oklch(0.85 0.005 65)" }}>Talk to Manus</h3>
+          <p className="text-xs" style={{ fontFamily: "'Crimson Pro', serif", color: "oklch(0.45 0.006 285)", fontStyle: "italic" }}>Live AI · Co-CEO of the Forge</p>
+        </div>
+        <span className="forge-badge forge-badge-amber">LIVE AI</span>
+      </div>
+      <div className="space-y-2 mb-3" style={{ maxHeight: "220px", overflowY: "auto" }}>
+        {msgs.map((m, i) => (
+          <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div
+              className="max-w-xs px-3 py-2 rounded-lg text-xs"
+              style={{
+                background: m.role === "user" ? "oklch(0.72 0.18 72 / 0.15)" : "oklch(0.12 0.006 285)",
+                border: m.role === "user" ? "1px solid oklch(0.72 0.18 72 / 0.3)" : "1px solid oklch(1 0 0 / 0.08)",
+                color: "oklch(0.80 0.005 65)",
+                fontFamily: "'Crimson Pro', serif",
+                lineHeight: 1.6,
+              }}
+            >
+              {m.text}
+            </div>
+          </div>
+        ))}
+        {loading && (
+          <div className="flex justify-start">
+            <div className="px-3 py-2 rounded-lg text-xs" style={{ background: "oklch(0.12 0.006 285)", border: "1px solid oklch(1 0 0 / 0.08)", color: "oklch(0.45 0.008 285)", fontFamily: "'JetBrains Mono', monospace" }}>
+              Manus is thinking...
+            </div>
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+      <div className="flex gap-2">
+        <input
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && send()}
+          placeholder="Ask Manus anything about the Forge..."
+          className="flex-1 px-3 py-2 rounded text-xs outline-none"
+          style={{
+            background: "oklch(0.10 0.005 285)",
+            border: "1px solid oklch(1 0 0 / 0.12)",
+            color: "oklch(0.85 0.005 65)",
+            fontFamily: "'Crimson Pro', serif",
+          }}
+        />
+        <button
+          onClick={send}
+          disabled={loading || !input.trim()}
+          className="px-3 py-2 rounded flex items-center gap-1.5 text-xs font-semibold transition-all"
+          style={{
+            background: loading || !input.trim() ? "oklch(0.15 0.005 285)" : "oklch(0.72 0.18 72 / 0.2)",
+            border: `1px solid ${loading || !input.trim() ? "oklch(1 0 0 / 0.08)" : "oklch(0.72 0.18 72 / 0.4)"}`,
+            color: loading || !input.trim() ? "oklch(0.35 0.005 285)" : "oklch(0.72 0.18 72)",
+          }}
+        >
+          <Send size={11} /> Send
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function BoardroomView() {
   return (
@@ -352,6 +471,9 @@ export default function BoardroomView() {
           </div>
         </motion.div>
       </div>
+
+      {/* Live AI Chat */}
+      <BoardroomChat />
 
       {/* Activity Feed */}
       <motion.div
